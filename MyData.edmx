@@ -1,0 +1,598 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CostCenter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CostCenter" Type="varchar" MaxLength="120" />
+          <Property Name="ProjectID" Type="int" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeCode" Type="varchar" MaxLength="100" />
+          <Property Name="EmployeeName" Type="varchar" MaxLength="100" />
+          <Property Name="DepartmentID" Type="int" />
+          <Property Name="isActive" Type="int" />
+        </EntityType>
+        <EntityType Name="Logger">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="LogDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkLogger.dbo.LoggerDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LoggerDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoggerID" Type="int" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="CostID" Type="int" />
+          <Property Name="IDMA" Type="int" />
+          <Property Name="IDSA" Type="int" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="ProjectSite" Type="varchar" MaxLength="50" />
+          <Property Name="LogDetDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+          <Property Name="Reason" Type="varchar" MaxLength="200" />
+          <Property Name="Comment" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="MainActivity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MainActivity" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectCode" Type="varchar" MaxLength="120" />
+        </EntityType>
+        <EntityType Name="Reason">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reason" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="SubActivity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubActivity" Type="varchar" MaxLength="200" />
+          <Property Name="IDMA" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkLogger.dbo.vwLogDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwLogDetails">
+          <Key>
+            <PropertyRef Name="LogID" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="DepartmentName" />
+          </Key>
+          <Property Name="LogID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="EmployeeCode" Type="varchar" MaxLength="100" />
+          <Property Name="EmployeeName" Type="varchar" MaxLength="100" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DepartmentName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogDate" Type="datetime" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectCode" Type="varchar" MaxLength="120" />
+          <Property Name="CostID" Type="int" />
+          <Property Name="CostCenter" Type="varchar" MaxLength="120" />
+          <Property Name="IDMA" Type="int" />
+          <Property Name="MainActivity" Type="varchar" MaxLength="200" />
+          <Property Name="IDSA" Type="int" />
+          <Property Name="SubActivity" Type="varchar" MaxLength="200" />
+          <Property Name="ProjectSite" Type="varchar" MaxLength="50" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+          <Property Name="Reason" Type="varchar" MaxLength="200" />
+          <Property Name="Comment" Type="varchar" MaxLength="200" />
+          <Property Name="LogDetDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__CostCente__Proje__412EB0B6">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="CostCenter" Type="Self.CostCenter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CostCenter">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Depart__3A81B327">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Logger__Employee__49C3F6B7">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Logger" Type="Self.Logger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Logger">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubActivit__IDMA__46E78A0C">
+          <End Role="MainActivity" Type="Self.MainActivity" Multiplicity="0..1" />
+          <End Role="SubActivity" Type="Self.SubActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MainActivity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubActivity">
+              <PropertyRef Name="IDMA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyDataModelStoreContainer">
+          <EntitySet Name="CostCenter" EntityType="Self.CostCenter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logger" EntityType="Self.Logger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MainActivity" EntityType="Self.MainActivity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reason" EntityType="Self.Reason" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubActivity" EntityType="Self.SubActivity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoggerDetail" EntityType="Self.LoggerDetail" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LoggerDetail].[ID] AS [ID], 
+    [LoggerDetail].[LoggerID] AS [LoggerID], 
+    [LoggerDetail].[ProjectID] AS [ProjectID], 
+    [LoggerDetail].[CostID] AS [CostID], 
+    [LoggerDetail].[IDMA] AS [IDMA], 
+    [LoggerDetail].[IDSA] AS [IDSA], 
+    [LoggerDetail].[Duration] AS [Duration], 
+    [LoggerDetail].[ProjectSite] AS [ProjectSite], 
+    [LoggerDetail].[LogDetDate] AS [LogDetDate], 
+    [LoggerDetail].[Status] AS [Status], 
+    [LoggerDetail].[Reason] AS [Reason], 
+    [LoggerDetail].[Comment] AS [Comment]
+    FROM [dbo].[LoggerDetail] AS [LoggerDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwLogDetails" EntityType="Self.vwLogDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwLogDetails].[LogID] AS [LogID], 
+    [vwLogDetails].[EmployeeID] AS [EmployeeID], 
+    [vwLogDetails].[EmployeeCode] AS [EmployeeCode], 
+    [vwLogDetails].[EmployeeName] AS [EmployeeName], 
+    [vwLogDetails].[ID] AS [ID], 
+    [vwLogDetails].[DepartmentName] AS [DepartmentName], 
+    [vwLogDetails].[LogDate] AS [LogDate], 
+    [vwLogDetails].[ProjectID] AS [ProjectID], 
+    [vwLogDetails].[ProjectCode] AS [ProjectCode], 
+    [vwLogDetails].[CostID] AS [CostID], 
+    [vwLogDetails].[CostCenter] AS [CostCenter], 
+    [vwLogDetails].[IDMA] AS [IDMA], 
+    [vwLogDetails].[MainActivity] AS [MainActivity], 
+    [vwLogDetails].[IDSA] AS [IDSA], 
+    [vwLogDetails].[SubActivity] AS [SubActivity], 
+    [vwLogDetails].[ProjectSite] AS [ProjectSite], 
+    [vwLogDetails].[Duration] AS [Duration], 
+    [vwLogDetails].[Status] AS [Status], 
+    [vwLogDetails].[Reason] AS [Reason], 
+    [vwLogDetails].[Comment] AS [Comment], 
+    [vwLogDetails].[LogDetDate] AS [LogDetDate]
+    FROM [dbo].[vwLogDetails] AS [vwLogDetails]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__CostCente__Proje__412EB0B6" Association="Self.FK__CostCente__Proje__412EB0B6">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="CostCenter" EntitySet="CostCenter" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Depart__3A81B327" Association="Self.FK__Employee__Depart__3A81B327">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Logger__Employee__49C3F6B7" Association="Self.FK__Logger__Employee__49C3F6B7">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Logger" EntitySet="Logger" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubActivit__IDMA__46E78A0C" Association="Self.FK__SubActivit__IDMA__46E78A0C">
+            <End Role="MainActivity" EntitySet="MainActivity" />
+            <End Role="SubActivity" EntitySet="SubActivity" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CostCenter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CostCenter1" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectID" Type="Int32" />
+          <NavigationProperty Name="Project" Relationship="Self.FK__CostCente__Proje__412EB0B6" FromRole="CostCenter" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Depart__3A81B327" FromRole="Department" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentID" Type="Int32" />
+          <Property Name="isActive" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Employee__Depart__3A81B327" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Loggers" Relationship="Self.FK__Logger__Employee__49C3F6B7" FromRole="Employee" ToRole="Logger" />
+        </EntityType>
+        <EntityType Name="Logger">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="LogDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Logger__Employee__49C3F6B7" FromRole="Logger" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="MainActivity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MainActivity1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SubActivities" Relationship="Self.FK__SubActivit__IDMA__46E78A0C" FromRole="MainActivity" ToRole="SubActivity" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectCode" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CostCenters" Relationship="Self.FK__CostCente__Proje__412EB0B6" FromRole="Project" ToRole="CostCenter" />
+        </EntityType>
+        <EntityType Name="Reason">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reason1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SubActivity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubActivity1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IDMA" Type="Int32" />
+          <NavigationProperty Name="MainActivity" Relationship="Self.FK__SubActivit__IDMA__46E78A0C" FromRole="SubActivity" ToRole="MainActivity" />
+        </EntityType>
+        <EntityType Name="LoggerDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoggerID" Type="Int32" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="CostID" Type="Int32" />
+          <Property Name="IDMA" Type="Int32" />
+          <Property Name="IDSA" Type="Int32" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="ProjectSite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LogDetDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vwLogDetail">
+          <Key>
+            <PropertyRef Name="LogID" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="DepartmentName" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="EmployeeCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LogDate" Type="DateTime" Precision="3" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectCode" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="CostID" Type="Int32" />
+          <Property Name="CostCenter" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="IDMA" Type="Int32" />
+          <Property Name="MainActivity" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IDSA" Type="Int32" />
+          <Property Name="SubActivity" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectSite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LogDetDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK__CostCente__Proje__412EB0B6">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="CostCenter" Type="Self.CostCenter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CostCenter">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Depart__3A81B327">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Logger__Employee__49C3F6B7">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Logger" Type="Self.Logger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Logger">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubActivit__IDMA__46E78A0C">
+          <End Role="MainActivity" Type="Self.MainActivity" Multiplicity="0..1" />
+          <End Role="SubActivity" Type="Self.SubActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MainActivity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubActivity">
+              <PropertyRef Name="IDMA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyData" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CostCenters" EntityType="Self.CostCenter" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Loggers" EntityType="Self.Logger" />
+          <EntitySet Name="MainActivities" EntityType="Self.MainActivity" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Reasons" EntityType="Self.Reason" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="SubActivities" EntityType="Self.SubActivity" />
+          <EntitySet Name="LoggerDetails" EntityType="Self.LoggerDetail" />
+          <EntitySet Name="vwLogDetails" EntityType="Self.vwLogDetail" />
+          <AssociationSet Name="FK__CostCente__Proje__412EB0B6" Association="Self.FK__CostCente__Proje__412EB0B6">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="CostCenter" EntitySet="CostCenters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Depart__3A81B327" Association="Self.FK__Employee__Depart__3A81B327">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Logger__Employee__49C3F6B7" Association="Self.FK__Logger__Employee__49C3F6B7">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Logger" EntitySet="Loggers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubActivit__IDMA__46E78A0C" Association="Self.FK__SubActivit__IDMA__46E78A0C">
+            <End Role="MainActivity" EntitySet="MainActivities" />
+            <End Role="SubActivity" EntitySet="SubActivities" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyDataModelStoreContainer" CdmEntityContainer="MyData">
+          <EntitySetMapping Name="CostCenters">
+            <EntityTypeMapping TypeName="MyDataModel.CostCenter">
+              <MappingFragment StoreEntitySet="CostCenter">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CostCenter1" ColumnName="CostCenter" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="MyDataModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MyDataModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Loggers">
+            <EntityTypeMapping TypeName="MyDataModel.Logger">
+              <MappingFragment StoreEntitySet="Logger">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MainActivities">
+            <EntityTypeMapping TypeName="MyDataModel.MainActivity">
+              <MappingFragment StoreEntitySet="MainActivity">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MainActivity1" ColumnName="MainActivity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="MyDataModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reasons">
+            <EntityTypeMapping TypeName="MyDataModel.Reason">
+              <MappingFragment StoreEntitySet="Reason">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Reason1" ColumnName="Reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="MyDataModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status1" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubActivities">
+            <EntityTypeMapping TypeName="MyDataModel.SubActivity">
+              <MappingFragment StoreEntitySet="SubActivity">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SubActivity1" ColumnName="SubActivity" />
+                <ScalarProperty Name="IDMA" ColumnName="IDMA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoggerDetails">
+            <EntityTypeMapping TypeName="MyDataModel.LoggerDetail">
+              <MappingFragment StoreEntitySet="LoggerDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LoggerID" ColumnName="LoggerID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="CostID" ColumnName="CostID" />
+                <ScalarProperty Name="IDMA" ColumnName="IDMA" />
+                <ScalarProperty Name="IDSA" ColumnName="IDSA" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="ProjectSite" ColumnName="ProjectSite" />
+                <ScalarProperty Name="LogDetDate" ColumnName="LogDetDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwLogDetails">
+            <EntityTypeMapping TypeName="MyDataModel.vwLogDetail">
+              <MappingFragment StoreEntitySet="vwLogDetails">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+                <ScalarProperty Name="CostID" ColumnName="CostID" />
+                <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+                <ScalarProperty Name="IDMA" ColumnName="IDMA" />
+                <ScalarProperty Name="MainActivity" ColumnName="MainActivity" />
+                <ScalarProperty Name="IDSA" ColumnName="IDSA" />
+                <ScalarProperty Name="SubActivity" ColumnName="SubActivity" />
+                <ScalarProperty Name="ProjectSite" ColumnName="ProjectSite" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="LogDetDate" ColumnName="LogDetDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
