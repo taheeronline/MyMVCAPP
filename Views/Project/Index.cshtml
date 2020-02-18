@@ -23,7 +23,7 @@
             @Html.DisplayFor(modelItem => item.ProjectCode)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            <span class="btn-primary">@Html.ActionLink("Edit", "Edit", new { id = item.ID })</span> |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
